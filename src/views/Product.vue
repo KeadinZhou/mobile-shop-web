@@ -1,16 +1,17 @@
 <template>
-    <div style="background-color: white">
+    <div style="background-color: white; padding-bottom: 50px">
         <mt-swipe :auto="2000" :style="'height: '+ (clientHeight - 80) +'px'">
             <mt-swipe-item v-for="(item, index) in productData.imgList" :key="index">
                 <div class="img-box" :style="'background: url(\''+item+'\') no-repeat;background-position: center; background-size: contain;background-color: white;'"></div>
             </mt-swipe-item>
         </mt-swipe>
         <h2 style="margin: 20px 0; text-align: center">{{productData.name}}</h2>
-        <p style="color: #5a5a5a; font-size: 14px;padding: 10px">{{productData.dis}}</p>
+        <p style="color: #5a5a5a; font-size: 14px;padding: 10px; text-align: center">{{productData.dis}}</p>
     </div>
 </template>
 
 <script>
+    import { Indicator,Toast } from 'mint-ui';
     export default {
         name: "Product",
         data () {
@@ -26,25 +27,41 @@
             }
         },
         methods: {
-            getStaticData () {
-                return {
-                    name: '(精抛）XHZ-017 100*200*50mm',
-                    imgList: [
-                        'http://kealine.top/shop/img/sj/1/1.jpg',
-                        'http://kealine.top/shop/img/sj/1/2.jpg',
-                        'http://kealine.top/shop/img/sj/1/3.jpg',
-                        'http://kealine.top/shop/img/sj/1/4.jpg',
-                        'http://kealine.top/shop/img/sj/1/5.jpg',
-                        'http://kealine.top/shop/img/sj/1/6.jpg',
-                        'http://kealine.top/shop/img/sj/1/7.jpg',
-                        'http://kealine.top/shop/img/sj/1/8.jpg',
-                    ],
-                    dis: '商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述商品描述'
-                }
-            },
             getData () {
                 const that = this
-                that.productData = this.getStaticData()
+                Indicator.open({
+                    text: '正在加载',
+                    spinnerType: 'fading-circle'
+                });
+                that.$http.get(that.$store.state.api + '/item/'+ that.id)
+                    .then(data => {
+                        const Data = data.data.data
+                        console.log(Data)
+                        that.productData = {
+                            name: Data.name,
+                            imgList: Data.image_list,
+                            dis: Data.description
+                        }
+                        Indicator.close()
+                    })
+                    .catch(function (error) {
+                        Indicator.close()
+                        if (error.response) {
+                            const tmp = error.response.data.msg
+                            if ((typeof tmp) === 'string') {
+                                Toast({
+                                    message: tmp
+                                });
+                            } else {
+                                for (const index in tmp) {
+                                    Toast({
+                                        message: tmp[index][0]
+                                    });
+                                    break
+                                }
+                            }
+                        }
+                    })
             }
         },
         created () {

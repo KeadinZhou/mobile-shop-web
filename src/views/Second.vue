@@ -2,7 +2,7 @@
     <div class="second">
         <page-search :width="clientWidth"></page-search>
         <img src="https://img.yzcdn.cn/upload_files/2019/07/04/FvAaQ5c-bXd4att5_u8OGFcpw0tx.jpg!large.jpg" alt="" width="100%">
-        <item-type :width="clientWidth" :type="1" :type-id="2" :line="2"></item-type>
+        <item-type :width="clientWidth" :type="1" :type-id="Number(this.$route.query.type)" :line="2"></item-type>
         <about-company :width="clientWidth"></about-company>
     </div>
 </template>

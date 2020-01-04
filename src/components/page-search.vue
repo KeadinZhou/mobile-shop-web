@@ -24,7 +24,7 @@
         methods: {
             searchGo(){
                 console.log(this.keyword)
-                this.$router.push('/products/-1/'+this.keyword)
+                this.$router.push('/products/-1?keyword='+this.keyword+'&title="'+this.keyword+'"的搜索结果')
             }
         }
     }

@@ -32,60 +32,46 @@
         methods: {
             getStaticData (){
                 const that = this
+                let tmp;
                 if(that.type === 0) {
-                    return [{
-                        imgUrl: 'http://kealine.top/shop/img/sj/1/1.jpg',
-                        title: '艺术玻璃',
-                        url: '#'
-                    },{
-                        imgUrl: 'http://kealine.top/shop/img/sj/1/2.jpg',
-                        title: '亚克力',
-                        url: '#'
-                    },{
-                        imgUrl: 'http://kealine.top/shop/img/sj/1/3.jpg',
-                        title: '水晶',
-                        url: '/second'
-                    },{
-                        imgUrl: 'http://kealine.top/shop/img/sj/1/4.jpg',
-                        title: '微景观',
-                        url: '#'
-                    },]
+                    tmp = [];
+                    for (const item of that.$store.state.types) {
+                        if (!item.parent_id) {
+                            tmp.push({
+                                id: item.id,
+                                imgUrl: item.image,
+                                title: item.name,
+                                url: '/second?type=' + item.id
+                            })
+                        }
+                    }
+                    console.log(tmp)
+                    return tmp
                 }
                 else {
-                    switch (that.typeId) {
-                        case 0: return []
-                        case 1: return []
-                        case 2: return [{
-                            imgUrl: 'http://kealine.top/shop/img/sj/1/1.jpg',
-                            title: '精抛水晶砖',
-                            url: '/products/1/1'
-                        },{
-                            imgUrl: 'http://kealine.top/shop/img/sj/2/1.jpg',
-                            title: '热熔水晶砖',
-                            url: '#'
-                        },{
-                            imgUrl: 'http://kealine.top/shop/img/sj/3/1.jpg',
-                            title: '多面立体水晶砖',
-                            url: '#'
-                        },{
-                            imgUrl: 'http://kealine.top/shop/img/sj/4/1.jpg',
-                            title: '波纹气泡水晶砖',
-                            url: '#'
-                        },{
-                            imgUrl: 'http://kealine.top/shop/img/sj/5/1.jpg',
-                            title: '异型水晶砖',
-                            url: '#'
-                        },{
-                            imgUrl: 'http://kealine.top/shop/img/sj/6/1.jpg',
-                            title: '夹砖水晶砖',
-                            url: '#'
-                        },]
-                        case 3: return []
+                    tmp = [];
+                    for (const item of that.$store.state.types) {
+                        if (item.parent_id === that.typeId) {
+                            tmp.push({
+                                id: item.id,
+                                imgUrl: item.image,
+                                title: item.name,
+                                url: '/products/' + item.id + '?title=' + item.name
+                            })
+                        }
                     }
+                    console.log(tmp)
+                    return tmp
                 }
             },
             getData () {
                 const that = this
+                if(that.$store.state.types.length === 0) {
+                    setTimeout( () => {
+                        that.getData()
+                    }, 200)
+                    return
+                }
                 that.typeData = []
                 that.typeData = that.getStaticData()
             }

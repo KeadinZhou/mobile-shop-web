@@ -37,9 +37,34 @@
                     text: '登录中',
                     spinnerType: 'fading-circle'
                 });
-                setTimeout( () => {
-                    that.login_ok()
-                }, 1000)
+                that.$http.post(that.$store.state.api + '/session', {
+                    username: that.username,
+                    password: that.password
+                })
+                    .then(data => {
+                        const Data = data.data.data
+                        console.log(Data)
+                        that.$store.commit('updateUser')
+                        that.login_ok()
+                    })
+                    .catch(function (error) {
+                        Indicator.close()
+                        if (error.response) {
+                            const tmp = error.response.data.msg
+                            if ((typeof tmp) === 'string') {
+                                Toast({
+                                    message: tmp
+                                });
+                            } else {
+                                for (const index in tmp) {
+                                    Toast({
+                                        message: tmp[index][0]
+                                    });
+                                    break
+                                }
+                            }
+                        }
+                    })
             }
         }
     }
