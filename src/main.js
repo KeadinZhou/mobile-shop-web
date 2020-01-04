@@ -16,3 +16,7 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+
+router.afterEach(() => {
+  document.querySelector('#page-top').scrollIntoView()
+})

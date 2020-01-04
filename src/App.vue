@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <div id="page-top"></div>
     <router-view/>
     <page-foot></page-foot>
   </div>
