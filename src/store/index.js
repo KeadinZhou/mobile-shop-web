@@ -5,6 +5,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    realHeight: function (X,Y,nowX) {
+      return nowX/X*Y
+    }
   },
   mutations: {
   },
