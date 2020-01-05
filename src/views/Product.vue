@@ -7,6 +7,13 @@
         </mt-swipe>
         <h2 style="margin: 20px 0; text-align: center">{{productData.name}}</h2>
         <p style="color: #5a5a5a; font-size: 14px;padding: 10px; text-align: center">{{productData.dis}}</p>
+        <template v-if="this.$store.state.user.id!==-9">
+            <div style="width: 100%;display: flex;justify-content: center; align-items: center;flex-direction: column">
+<!--                <router-link :to="'/admin/item/edit/'+id" style="text-align: center;font-size: 14px;color: #333333;width: 100%">编辑该产品</router-link>-->
+                <mt-button type="default" style="width: 90%;margin-top: 30px" @click.native="$router.push('/admin/item/edit/'+id)">编辑该产品</mt-button>
+                <mt-button type="danger" style="width: 90%;margin-top: 30px" @click.native="delPro">删除该产品</mt-button>
+            </div>
+        </template>
     </div>
 </template>
 
@@ -61,6 +68,44 @@
                                 }
                             }
                         }
+                    })
+            },
+            delPro () {
+                const that = this
+                that.$messagebox('确认后删除')
+                    .then(() => {
+                        Indicator.open({
+                            text: '正在删除',
+                            spinnerType: 'fading-circle'
+                        });
+                        that.$http.delete(that.$store.state.api + '/item/' + that.id)
+                            .then(data => {
+                                const Data = data.data.data
+                                console.log(Data)
+                                Indicator.close()
+                                Toast({
+                                    message: '删除成功'
+                                });
+                                that.$router.push('/')
+                            })
+                            .catch(function (error) {
+                                Indicator.close()
+                                if (error.response) {
+                                    const tmp = error.response.data.msg
+                                    if ((typeof tmp) === 'string') {
+                                        Toast({
+                                            message: tmp
+                                        });
+                                    } else {
+                                        for (const index in tmp) {
+                                            Toast({
+                                                message: tmp[index][0]
+                                            });
+                                            break
+                                        }
+                                    }
+                                }
+                            })
                     })
             }
         },

@@ -1,11 +1,12 @@
 <template>
     <div class="page-foot">
         <span><router-link to="/">店铺首页</router-link></span>
-        &nbsp;&nbsp;|&nbsp;&nbsp;<span @click="about">关于我们</span>
+        &nbsp;&nbsp;|&nbsp;&nbsp;<span @click="about">技术支持</span>
         <template v-if="this.$store.state.user.id===-9">
             &nbsp;&nbsp;|&nbsp;&nbsp;<span><router-link to="/login">后台登录</router-link></span>
         </template>
         <template v-else>
+            &nbsp;&nbsp;|&nbsp;&nbsp;<span><router-link to="/admin">管理后台</router-link></span>
             &nbsp;&nbsp;|&nbsp;&nbsp;<span @click="logout">退出登录</span>
         </template>
     </div>

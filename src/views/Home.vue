@@ -28,6 +28,7 @@
       }
     },
     created () {
+      document.title = '香杭微景'
     }
   }
 </script>

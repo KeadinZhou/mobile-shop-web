@@ -1,51 +1,45 @@
 <template>
-    <div :style="'width: 100%;height:' +clientHeight+ 'px'">
-        <div :style="'width: 100%;height:' +clientHeight/3*2+ 'px'" class="login-img-box">
-            <img src="@/assets/login.png" alt="" width="200px" height="200px">
-        </div>
-        <mt-field label="用户名" placeholder="请输入用户名" v-model="username"></mt-field>
-        <mt-field label="密码" placeholder="请输入密码" type="password" v-model="password"></mt-field>
-        <div :style="'width: 100%;height:' +clientHeight/11+ 'px'"></div>
-        <mt-button type="primary" size="large" @click.native="login">登录</mt-button>
+    <div style="width: 100%">
+        <input type="file" id="realUpload" @change="uploadFile" name="file" accept="image/*">
+        <mt-button type="primary" size="large" @click.native="uploadUp">上传图片</mt-button>
     </div>
 </template>
 
 <script>
     import { Indicator,Toast } from 'mint-ui';
     export default {
-        name: "Login",
+        name: "upload-item",
         data () {
             return {
-                clientHeight: window.innerHeight,
-                clientWidth: window.innerWidth,
-                username: '',
-                password: ''
+
             }
         },
         methods: {
-            login_ok () {
-                const that = this
+            uploadUp () {
+                document.getElementById("realUpload").click()
+            },
+            uploadOK (url) {
                 Indicator.close()
                 Toast({
-                    message: '登录成功'
+                    message: '上传成功'
                 });
-                that.$router.push('/admin')
+                console.log(url)
+                this.$emit('uploadOK',url)
             },
-            login () {
+            uploadFile (e) {
                 const that = this
+                console.log(e.target.files[0])
+                var sendData = new FormData()
+                sendData.append('file',e.target.files[0])
                 Indicator.open({
-                    text: '登录中',
+                    text: '上传中',
                     spinnerType: 'fading-circle'
                 });
-                that.$http.post(that.$store.state.api + '/session', {
-                    username: that.username,
-                    password: that.password
-                })
+                that.$http.post(that.$store.state.api + '/file', sendData)
                     .then(data => {
                         const Data = data.data.data
                         console.log(Data)
-                        that.$store.commit('updateUser')
-                        that.login_ok()
+                        that.uploadOK(Data)
                     })
                     .catch(function (error) {
                         Indicator.close()
@@ -71,10 +65,7 @@
 </script>
 
 <style scoped>
-    .login-img-box{
-        display: flex;
-        justify-content: center;
-        justify-items: center;
-        align-items: center;
+    #realUpload{
+        display: none;
     }
 </style>

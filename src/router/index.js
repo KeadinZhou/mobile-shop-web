@@ -26,10 +26,34 @@ const routes = [
     name: 'login',
     component: () => import('../views/Login.vue')
   },{
-    path: '/upload',
-    name: 'upload',
-    component: () => import('../views/Upload.vue')
-  }
+    path: '/admin',
+    name: 'admin',
+    component: () => import('../views/Admin.vue')
+  },{
+    path: '/admin/home',
+    name: 'admin-home',
+    component: () => import('../views/admin-page/HomeEdit.vue')
+  },{
+    path: '/admin/type-edit',
+    name: 'type-edit',
+    component: () => import('../views/admin-page/TypeEdit.vue')
+  },{
+    path: '/admin/type1',
+    name: 'type-choose-1',
+    component: () => import('../views/admin-page/TypeChoose1.vue')
+  },{
+    path: '/admin/type2',
+    name: 'type-choose-2',
+    component: () => import('../views/admin-page/TypeChoose2.vue')
+  },{
+    path: '/admin/item/add',
+    name: 'item-add',
+    component: () => import('../views/admin-page/ItemAdd.vue')
+  },{
+    path: '/admin/item/edit/:id',
+    name: 'item-edit',
+    component: () => import('../views/admin-page/ItemEdit.vue')
+  },
   // {
   //   path: '/about',
   //   name: 'about',
