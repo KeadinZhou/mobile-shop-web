@@ -1,7 +1,8 @@
 <template>
     <div class="second">
         <page-search :width="clientWidth"></page-search>
-        <img src="https://img.yzcdn.cn/upload_files/2019/07/04/FvAaQ5c-bXd4att5_u8OGFcpw0tx.jpg!large.jpg" alt="" width="100%">
+<!--        <img src="https://img.yzcdn.cn/upload_files/2019/07/04/FvAaQ5c-bXd4att5_u8OGFcpw0tx.jpg!large.jpg" alt="" width="100%">-->
+        <img :src="imgUrl" alt="" width="100%">
         <item-type :width="clientWidth" :type="1" :type-id="Number(this.$route.query.type)" :line="2"></item-type>
         <about-company :width="clientWidth"></about-company>
     </div>
@@ -21,10 +22,28 @@
         data () {
             return {
                 clientHeight: window.innerHeight,
-                clientWidth: window.innerWidth
+                clientWidth: window.innerWidth,
+                imgUrl: ''
+            }
+        },
+        methods: {
+            getData () {
+                const that = this
+                if(that.$store.state.types.length === 0) {
+                    setTimeout( () => {
+                        that.getData()
+                    }, 200)
+                    return
+                }
+                for(const item of that.$store.state.types) {
+                    if(item.id === Number(this.$route.query.type)) {
+                        that.imgUrl = item.image_list.length?item.image_list[0]:'#'
+                    }
+                }
             }
         },
         created () {
+            this.getData()
         }
     }
 </script>

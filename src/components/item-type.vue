@@ -36,10 +36,10 @@
                 if(that.type === 0) {
                     tmp = [];
                     for (const item of that.$store.state.types) {
-                        if (!item.parent_id) {
+                        if (item.parent_id===1) {
                             tmp.push({
                                 id: item.id,
-                                imgUrl: item.image,
+                                imgUrl: item.image_list.length?item.image_list[0]:'#',
                                 title: item.name,
                                 url: '/second?type=' + item.id
                             })
@@ -54,7 +54,7 @@
                         if (item.parent_id === that.typeId) {
                             tmp.push({
                                 id: item.id,
-                                imgUrl: item.image,
+                                imgUrl: item.image_list.length?item.image_list[0]:'#',
                                 title: item.name,
                                 url: '/products/' + item.id + '?title=' + item.name
                             })
