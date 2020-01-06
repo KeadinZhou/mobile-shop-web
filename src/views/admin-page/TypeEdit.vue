@@ -5,7 +5,8 @@
             <mt-field label="分类名称" placeholder="请输入分类名称" v-model="typeData.name"></mt-field>
             <img :src="typeData.image_list.length?typeData.image_list[0]:'#'" alt="" width="100%">
             <upload-item @uploadOK="uploadImg"></upload-item>
-            <mt-button size="large" style="margin-top: 10px; background-color: #06AD56;color: white" @click.native="saveChange">保存修改</mt-button>
+            <mt-button size="large" style="margin-top: 20px; background-color: #06AD56;color: white" @click.native="saveChange">保存修改</mt-button>
+            <mt-button size="large" style="margin-top: 20px; color: white" @click.native="delType" type="danger">删除分类</mt-button>
         </div>
     </div>
 </template>
@@ -86,6 +87,44 @@
                                 }
                             }
                         }
+                    })
+            },
+            delType () {
+                const that = this
+                that.$messagebox('确认后删除')
+                    .then(() => {
+                        Indicator.open({
+                            text: '正在删除',
+                            spinnerType: 'fading-circle'
+                        });
+                        that.$http.delete(that.$store.state.api + '/category/' + that.$route.query.id)
+                            .then(data => {
+                                const Data = data.data.data
+                                console.log(Data)
+                                Indicator.close()
+                                Toast({
+                                    message: '删除成功'
+                                });
+                                that.$router.push('/')
+                            })
+                            .catch(function (error) {
+                                Indicator.close()
+                                if (error.response) {
+                                    const tmp = error.response.data.msg
+                                    if ((typeof tmp) === 'string') {
+                                        Toast({
+                                            message: tmp
+                                        });
+                                    } else {
+                                        for (const index in tmp) {
+                                            Toast({
+                                                message: tmp[index][0]
+                                            });
+                                            break
+                                        }
+                                    }
+                                }
+                            })
                     })
             }
         },

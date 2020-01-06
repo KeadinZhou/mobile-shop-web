@@ -3,7 +3,7 @@
     <page-search :width="clientWidth"></page-search>
     <index-swipe :width="clientWidth"></index-swipe>
     <div style="font-size: 18px; text-align: center; margin: 30px 0;">产品分类</div>
-    <item-type :width="clientWidth" :type="0"></item-type>
+    <item-type :width="clientWidth" :type="0" :perLine="4"></item-type>
     <about-company :width="clientWidth"></about-company>
   </div>
 </template>

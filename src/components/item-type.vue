@@ -6,7 +6,7 @@
                 :img-url="item.imgUrl"
                 :title="item.title"
                 :url="item.url"
-                :size="(line)?((width-(typeData.length/line-1)*5)/(typeData.length/line)):((width-(typeData.length-1)*5)/typeData.length)">
+                :size="(width-(perLine-1)*5)/perLine">
         </img-box>
     </div>
 </template>
@@ -19,7 +19,7 @@
             width: Number,
             type: Number,
             typeId: Number,
-            line: Number
+            perLine: Number
         },
         components: {
             'img-box':ImgBox

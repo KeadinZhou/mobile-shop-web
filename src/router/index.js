@@ -38,6 +38,10 @@ const routes = [
     name: 'type-edit',
     component: () => import('../views/admin-page/TypeEdit.vue')
   },{
+    path: '/admin/type-add',
+    name: 'type-add',
+    component: () => import('../views/admin-page/TypeAdd.vue')
+  },{
     path: '/admin/type1',
     name: 'type-choose-1',
     component: () => import('../views/admin-page/TypeChoose1.vue')

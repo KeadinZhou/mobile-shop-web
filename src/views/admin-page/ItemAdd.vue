@@ -2,10 +2,10 @@
     <div v-if="!loading" :style="'min-height: '+clientHeight/10*9+'px'">
         <div style="font-size: 18px; text-align: center; padding: 30px 0;"><h2>新增产品</h2></div>
         <mt-field label="产品名称" placeholder="请输入产品名称" v-model="itemData.name"></mt-field>
-        <mt-cell title="一级目录" is-link @click.native="pick1Show=true">
+        <mt-cell title="一级分类" is-link @click.native="pick1Show=true">
             {{pick1.type1}}
         </mt-cell>
-        <mt-cell title="二级目录" is-link @click.native="pick2Show=true">
+        <mt-cell title="二级分类" is-link @click.native="pick2Show=true">
             {{pick2.name}}
         </mt-cell>
         <mt-field label="产品描述" placeholder="请输入产品描述" type="textarea" rows="3" v-model="itemData.description"></mt-field>
