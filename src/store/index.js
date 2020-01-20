@@ -4,7 +4,8 @@ import { Toast } from 'mint-ui'
 
 Vue.use(Vuex)
 
-const api = 'http://shop-api.newitd.com/v1'
+// const api = 'http://shop-api.newitd.com/v1'
+const api = 'http://121.43.237.215/api/v1'
 
 const USER_NULL = {
   id: -9,
